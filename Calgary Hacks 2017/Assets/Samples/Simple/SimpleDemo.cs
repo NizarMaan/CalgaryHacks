@@ -14,16 +14,25 @@ public class SimpleDemo : MonoBehaviour {
 	public RawImage Image;
 	public AudioSource Audio;
 
-	// Disable Screen Rotation on that screen
-	void Awake()
+    private string walMartKey;
+    private string eBayKey;
+    private string url;
+    private string itemUPC;
+    private WWW www;
+
+    // Disable Screen Rotation on that screen
+    void Awake()
 	{
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
 	}
 
 	void Start () {
-		// Create a basic scanner
-		BarcodeScanner = new Scanner();
+        walMartKey = "rgdqpvrcz8xg2h9gzzzdjcdh";
+        eBayKey = "SyedZaid-CalgaryH-SBX-d240e526c-d81c7bc5";
+        
+        // Create a basic scanner
+        BarcodeScanner = new Scanner();
 		BarcodeScanner.Camera.Play();
 
 		// Display the camera texture through a RawImage
@@ -72,8 +81,13 @@ public class SimpleDemo : MonoBehaviour {
 			BarcodeScanner.Stop();
 			TextHeader.text = "Found: " + barCodeType + " / " + barCodeValue;
 
-			// Feedback
-			Audio.Play();
+            itemUPC = barCodeValue;
+            url = "http://api.walmartlabs.com/v1/items?apiKey=" + walMartKey + "&upc=" + barCodeValue;
+            www = new WWW(url);
+            StartCoroutine(WaitForRequest(www));
+
+            // Feedback
+            Audio.Play();
 
 			#if UNITY_ANDROID || UNITY_IOS
 			Handheld.Vibrate();
@@ -96,9 +110,9 @@ public class SimpleDemo : MonoBehaviour {
 	public void ClickBack()
 	{
 		// Try to stop the camera before loading another scene
-		StartCoroutine(StopCamera(() => {
-			SceneManager.LoadScene("Boot");
-		}));
+		//StartCoroutine(StopCamera(() => {
+		//	SceneManager.LoadScene("Boot");
+		//}));
 	}
 
 	/// <summary>
@@ -120,5 +134,21 @@ public class SimpleDemo : MonoBehaviour {
 		callback.Invoke();
 	}
 
-	#endregion
+    IEnumerator WaitForRequest(WWW www)
+    {
+        yield return www;
+        Debug.Log(itemUPC);
+        // check for errors
+        if (www.error == null)
+        {
+            Debug.Log("WWW Ok!: " + www.text);
+        }
+        else
+        {
+            Debug.Log("WWW Error: " + www.error);
+        }
+    }
+
+    #endregion
 }
+
