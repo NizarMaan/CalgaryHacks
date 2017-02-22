@@ -82,7 +82,14 @@ public class SimpleDemo : MonoBehaviour {
 			TextHeader.text = "Found: " + barCodeType + " / " + barCodeValue;
 
             itemUPC = barCodeValue;
+
+            //walmart
             url = "http://api.walmartlabs.com/v1/items?apiKey=" + walMartKey + "&upc=" + barCodeValue;
+            www = new WWW(url);
+            StartCoroutine(WaitForRequest(www));
+
+            //ebay
+            url = "http://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=" + eBayKey + "&OPERATION-NAME=findItemsByProduct&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&productId.@type=UPC&productId=" + itemUPC + "&paginationInput.entriesPerPage=3";
             www = new WWW(url);
             StartCoroutine(WaitForRequest(www));
 
@@ -137,7 +144,6 @@ public class SimpleDemo : MonoBehaviour {
     IEnumerator WaitForRequest(WWW www)
     {
         yield return www;
-        Debug.Log(itemUPC);
         // check for errors
         if (www.error == null)
         {
