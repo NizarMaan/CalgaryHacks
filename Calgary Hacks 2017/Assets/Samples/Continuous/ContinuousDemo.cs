@@ -29,7 +29,7 @@ public class ContinuousDemo : MonoBehaviour {
 
 	void Start () {
         walMartKey = "rgdqpvrcz8xg2h9gzzzdjcdh";
-        eBayKey = "SyedZaid-CalgaryH-SBX-d240e526c-d81c7bc5";
+        eBayKey = "SyedZaid-CalgaryH-PRD-c2466ad0e-135ec8fd";
 
         // Create a basic scanner
         BarcodeScanner = new Scanner();
@@ -76,7 +76,7 @@ public class ContinuousDemo : MonoBehaviour {
             StartCoroutine(WaitForRequest(www));
 
             //ebay
-            url = "http://svcs.sandbox.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=" + eBayKey + "&OPERATION-NAME=findItemsByProduct&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&productId.@type=UPC&productId=" + itemUPC + "&paginationInput.entriesPerPage=3";
+            url = "http://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=" + eBayKey + "&OPERATION-NAME=findItemsByProduct&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&productId.@type=UPC&productId=" + itemUPC + "&paginationInput.entriesPerPage=3";
             www = new WWW(url);
             StartCoroutine(WaitForRequest(www));
 
