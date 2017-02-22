@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="Assets\Samples\Boot.cs" />
     <Compile Include="Assets\Samples\Continuous\ContinuousDemo.cs" />
+    <Compile Include="Assets\Samples\Continuous\Ebay.cs" />
+    <Compile Include="Assets\Samples\Continuous\Walmart.cs" />
     <Compile Include="Assets\Samples\Simple\SimpleDemo.cs" />
     <Compile Include="Assets\Scripts\External\WizUtils\Logger\Log.cs" />
     <Compile Include="Assets\Scripts\External\WizUtils\Logger\LogLevel.cs" />
@@ -95,7 +97,6 @@
     <Compile Include="Assets\Scripts\Scanner\ScannerStatus.cs" />
     <Compile Include="Assets\Scripts\Settings\ScannerSettings.cs" />
     <Compile Include="Assets\Scripts\Webcam\UnityWebcam.cs" />
-    <Compile Include="Assets\Scripts\httpGetter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
