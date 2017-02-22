@@ -19,7 +19,7 @@ public class Item
 	public List<string> title;
     public List<string> globalId { get; set; }
     public List<string> galleryURL { get; set; }
-    public List<string> viewItemURL { get; set; }
+    public List<string> viewItemURL;
     public List<string> paymentMethod { get; set; }
     public List<string> autoPay { get; set; }
     public List<string> postalCode { get; set; }

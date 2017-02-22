@@ -8,6 +8,8 @@ public class Items
     public string name;
     public double msrp;
     public double salePrice;
+    public string productUrl;
+    public string thumbnailImage;
 }
 
 [System.Serializable]
