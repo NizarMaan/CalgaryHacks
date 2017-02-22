@@ -14,16 +14,25 @@ public class ContinuousDemo : MonoBehaviour {
 	public AudioSource Audio;
 	private float RestartTime;
 
-	// Disable Screen Rotation on that screen
-	void Awake()
+    private string walMartKey;
+    private string eBayKey;
+    private string url;
+    private string itemUPC;
+    private WWW www;
+
+    // Disable Screen Rotation on that screen
+    void Awake()
 	{
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
 	}
 
 	void Start () {
-		// Create a basic scanner
-		BarcodeScanner = new Scanner();
+        walMartKey = "rgdqpvrcz8xg2h9gzzzdjcdh";
+        eBayKey = "SyedZaid-CalgaryH-SBX-d240e526c-d81c7bc5";
+
+        // Create a basic scanner
+        BarcodeScanner = new Scanner();
 		BarcodeScanner.Camera.Play();
 
 		// Display the camera texture through a RawImage
@@ -53,14 +62,26 @@ public class ContinuousDemo : MonoBehaviour {
 			{
 				TextHeader.text = "";
 			}
-			TextHeader.text += "Found: " + barCodeType + " / " + barCodeValue + "\n";
+			//TextHeader.text += "Found: " + barCodeType + " / " + barCodeValue + "\n";
 			RestartTime += Time.realtimeSinceStartup + 1f;
 
 			// Feedback
 			Audio.Play();
 
-			#if UNITY_ANDROID || UNITY_IOS
-			Handheld.Vibrate();
+            itemUPC = barCodeValue;
+
+            //walmart
+            url = "http://api.walmartlabs.com/v1/items?apiKey=" + walMartKey + "&upc=" + barCodeValue;
+            www = new WWW(url);
+            StartCoroutine(WaitForRequest(www));
+
+            //ebay
+            url = "http://svcs.sandbox.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=" + eBayKey + "&OPERATION-NAME=findItemsByProduct&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&productId.@type=UPC&productId=" + itemUPC + "&paginationInput.entriesPerPage=3";
+            www = new WWW(url);
+            StartCoroutine(WaitForRequest(www));
+
+#if UNITY_ANDROID || UNITY_IOS
+            Handheld.Vibrate();
 			#endif
 		});
 	}
@@ -84,14 +105,14 @@ public class ContinuousDemo : MonoBehaviour {
 	}
 
 	#region UI Buttons
-
+    /*
 	public void ClickBack()
 	{
 		// Try to stop the camera before loading another scene
 		StartCoroutine(StopCamera(() => {
 			SceneManager.LoadScene("Boot");
 		}));
-	}
+	}*/
 
 	/// <summary>
 	/// This coroutine is used because of a bug with unity (http://forum.unity3d.com/threads/closing-scene-with-active-webcamtexture-crashes-on-android-solved.363566/)
@@ -112,5 +133,19 @@ public class ContinuousDemo : MonoBehaviour {
 		callback.Invoke();
 	}
 
-	#endregion
+    IEnumerator WaitForRequest(WWW www)
+    {
+        yield return www;
+        // check for errors
+        if (www.error == null)
+        {
+            Debug.Log("WWW Ok!: " + www.text);
+        }
+        else
+        {
+            Debug.Log("WWW Error: " + www.error);
+        }
+    }
+
+    #endregion
 }
