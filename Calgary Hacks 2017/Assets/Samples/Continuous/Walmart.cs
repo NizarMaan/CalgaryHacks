@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Item
+public class Items
 {
     public string name;
     public double msrp;
@@ -13,5 +13,5 @@ public class Item
 [System.Serializable]
 public class Walmart
 {
-    public List<Item> items;
+    public List<Items> items;
 }
