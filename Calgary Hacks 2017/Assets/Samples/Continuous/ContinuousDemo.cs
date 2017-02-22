@@ -28,6 +28,7 @@ public class ContinuousDemo : MonoBehaviour {
 	}
 
 	void Start () {
+        //Application.OpenURL("google.ca");
         walMartKey = "rgdqpvrcz8xg2h9gzzzdjcdh";
         eBayKey = "SyedZaid-CalgaryH-PRD-c2466ad0e-135ec8fd";
 
